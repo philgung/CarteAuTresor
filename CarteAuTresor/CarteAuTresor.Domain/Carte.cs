@@ -34,7 +34,9 @@ namespace CarteAuTresor.Domain
 
         public bool DeplacementAutorise(Aventurier aventurier, Position prochainePosition)
         {
-            return !Cases.EstUneMontagne(prochainePosition) && Cases.Case(prochainePosition).Aventurier == null;
+            return prochainePosition.Abscisse >= 0 && prochainePosition.Ordonnee >= 0 &&
+                prochainePosition.Abscisse < NbCasesEnLargeur && prochainePosition.Ordonnee < NbCasesEnHauteur &&
+                !Cases.EstUneMontagne(prochainePosition) && Cases.Case(prochainePosition).Aventurier == null;
         }
 
         private void PlacerTresors(IList<Tresor> tresors)

@@ -16,22 +16,21 @@ namespace CarteAuTresor.Console
                 NbCasesEnLargeurDeLaCarte = 3,
                 NbCasesEnHauteurDeLaCarte = 4
             };
-            fichierDEntree.AjouterMontagne(new Montagne(new Position(1, 1)));
-            fichierDEntree.AjouterMontagne(new Montagne(new Position(2, 2)));
+            fichierDEntree.AjouterMontagne(new Montagne(new Position(1, 0)));
+            fichierDEntree.AjouterMontagne(new Montagne(new Position(2, 1)));
             fichierDEntree.AjouterTresor(new Tresor(new Position(0, 3), 2));
-            fichierDEntree.AjouterTresor(new Tresor(new Position(1, 3), 1));
+            fichierDEntree.AjouterTresor(new Tresor(new Position(1, 3), 3));
             var carte = new Carte(fichierDEntree);
 
-            var position = new Position(0, 1);
-            var aventurier = new Aventurier("Lara", position, Orientation.Nord, "AADADAGGA");
-            carte.Cases.Case(position).Accueille(aventurier);
             var quete = new QueteAuTresor(carte);
+            var aventurier = new Aventurier("Lara", new Position(1, 1), Orientation.Sud, "AADADAGGA");
             quete.SInscrit(aventurier);
             System.Console.WriteLine(carte.ToString());
             System.Console.ReadLine();
 
-            quete.LAventurierAvance(aventurier);
+            quete.Debute();
             System.Console.WriteLine(carte.ToString());
+            System.Console.WriteLine($"{aventurier.Nom} a collecté : {aventurier.TresorCollecte} trésor(s).");
             System.Console.ReadLine();
         }
     }

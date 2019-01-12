@@ -33,7 +33,7 @@ namespace CarteAuTresor.Domain.Tests
         {
             // Arrange
             var quete = TestsHelpers.InitQuete();
-            var lara = TestsHelpers.CreateLara(new Position(1,1));
+            var lara = TestsHelpers.CreateLara(new Position(1, 1));
             // Act
 
             // Assert
@@ -84,7 +84,7 @@ namespace CarteAuTresor.Domain.Tests
             // Arrange
             var quete = TestsHelpers.InitDeuxiemeQuete();
             var initialPosition = new Position(1, 1);
-            var lili = TestsHelpers.CreateLili(initialPosition);
+            var lili = new Aventurier("Lili", initialPosition, Orientation.Sud, "AADADAGGA");
 
             quete.SInscrit(lili);
 
@@ -96,6 +96,7 @@ namespace CarteAuTresor.Domain.Tests
                 ".\t.\tM\n" +
                 ".\t.\t.\n" +
                 "A(Lili)\tT(2)\t.\n");
+            lili.TresorCollecte.Should().Be(3);
         }
 
         [Fact]
@@ -103,31 +104,44 @@ namespace CarteAuTresor.Domain.Tests
         {
             // Arrange
             var quete = TestsHelpers.InitDeuxiemeQuete();
-            var initialPosition = new Position(1, 1);
-            var lili = TestsHelpers.CreateLili(initialPosition);
 
+            var initialPosition = new Position(1, 1);
+            var lili = new Aventurier("Lili", initialPosition, Orientation.Sud, "AADADAGGA");
+            var lala = new Aventurier("lala", new Position(2, 2), Orientation.Ouest, "AAADAA");
+            quete.SInscrit(lili);
+            quete.SInscrit(lala);
+
+            // Act 
+            quete.Debute();
+            // Assert
+            quete.Carte.ToString().Should().Be(
+                "A(lala)\tM\t.\n" +
+                ".\t.\tM\n" +
+                ".\t.\t.\n" +
+                "A(Lili)\tT(2)\t.\n");
+            lili.TresorCollecte.Should().Be(3);
+            lala.TresorCollecte.Should().Be(0);
+        }
+
+        [Fact]
+        public void UnAventurierNePeutAllerAuDelaDeLaCarte()
+        {
+            // Arrange
+            var quete = TestsHelpers.InitDeuxiemeQuete();
+
+            var initialPosition = new Position(2, 2);
+            var lili = new Aventurier("Lili", initialPosition, Orientation.Est, "ADAADAAADAAAA");
             quete.SInscrit(lili);
 
             // Act 
             quete.Debute();
             // Assert
             quete.Carte.ToString().Should().Be(
-                ".\tM\t.\n" +
+                "A(Lili)\tM\t.\n" +
                 ".\t.\tM\n" +
                 ".\t.\t.\n" +
-                "A(Lili)\tT(2)\t.\n");
+                "T(1)\tT(2)\t.\n");
+
         }
-
-        // Si l'aventurier est bloqué par une montagne, il poursuit l'exécution de la séquence
-        // Si l'aventurier passe par dessus une case Trésor, il ramasse un trésor présent sur la case. 
-        // Si la case contient 2 trésors, l'aventurier devra quitter la case puis revenir sur celle-ci afin de ramasser le 2ème trésor
-
-
-        // Il ne peut y avoir qu'un aventurier à la fois sur une case
-        // Les mouvements des aventuriers sont évalués tour par tour
-        // En cas de conflit entre mouvements sur un même tour c'est l'ordre d'apparition de l'aventurier dans le fichier qui donne la priorité des mouvements
-
-
-
     }
 }

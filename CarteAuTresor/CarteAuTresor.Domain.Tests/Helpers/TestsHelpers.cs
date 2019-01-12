@@ -59,10 +59,5 @@ namespace CarteAuTresor.Domain.Tests.Helpers
         {
             return new Aventurier("Lara", position, Orientation.Nord, "GGAAGAGAAGAA");
         }
-
-        public static Aventurier CreateLili(Position position)
-        {
-            return new Aventurier("Lili", position, Orientation.Sud, "AADADAGGA");
-        }
     }
 }

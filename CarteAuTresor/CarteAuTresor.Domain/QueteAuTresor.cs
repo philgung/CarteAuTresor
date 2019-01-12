@@ -24,6 +24,7 @@ namespace CarteAuTresor.Domain
             }
 
             OrdreDePassage.Add(new KeyValuePair<int, Aventurier>(_ordreDePassageCourant++, aventurier));
+            Carte.Cases.Case(aventurier.Position).Accueille(aventurier);
         }
 
         public void LAventurierAvance(Aventurier aventurier)
@@ -36,7 +37,6 @@ namespace CarteAuTresor.Domain
 
                 aventurier.Position = prochainePosition;
 
-                // Récupérer le trésor si présent
                 Carte.Cases.Case(initialPosition).Quitte();
                 var prochaineCase = Carte.Cases.Case(prochainePosition);
                 prochaineCase.Accueille(aventurier);
@@ -50,12 +50,14 @@ namespace CarteAuTresor.Domain
 
         public void Debute()
         {
-            var tailleParcoursMax = OrdreDePassage.Max(x => x.Value.Parcours).Length;
+            var tailleParcoursMax = OrdreDePassage.Max(x => x.Value.Parcours.Length);
             for (int indexParcours = 0; indexParcours < tailleParcoursMax; indexParcours++)
             {
                 foreach (var item in OrdreDePassage)
                 {
                     var aventurier = item.Value;
+                    if (aventurier.Parcours.Length <= indexParcours)
+                        continue;
                     switch (aventurier.Parcours[indexParcours])
                     {
                         case 'A':

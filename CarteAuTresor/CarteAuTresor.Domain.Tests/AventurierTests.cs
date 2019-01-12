@@ -70,10 +70,5 @@ namespace CarteAuTresor.Domain.Tests
             // Assert
             aventurier.Nom.Should().NotBeNull();
         }
-
-        // Parcours
-        // Position sur la carte
-        // Traverser !
-        // Séquence de mouvement
     }
 }
