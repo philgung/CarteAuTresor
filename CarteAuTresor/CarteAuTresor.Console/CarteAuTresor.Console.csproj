@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B8B57323-65F3-408D-9123-C33321F1DDB6}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CarteAuTresor.Domain</RootNamespace>
-    <AssemblyName>CarteAuTresor.Domain</AssemblyName>
+    <ProjectGuid>{2523AA5B-5792-4DC6-88D3-19F9ECB10708}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>CarteAuTresor.Console</RootNamespace>
+    <AssemblyName>CarteAuTresor.Console</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -40,18 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aventurier.cs" />
-    <Compile Include="Carte.cs" />
-    <Compile Include="CarteAuTresorDomainException.cs" />
-    <Compile Include="Case.cs" />
-    <Compile Include="FichierDEntree.cs" />
-    <Compile Include="Montagne.cs" />
-    <Compile Include="Orientation.cs" />
-    <Compile Include="Plaine.cs" />
-    <Compile Include="Position.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QueteAuTresor.cs" />
-    <Compile Include="Tresor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CarteAuTresor.Domain\CarteAuTresor.Domain.csproj">
+      <Project>{B8B57323-65F3-408D-9123-C33321F1DDB6}</Project>
+      <Name>CarteAuTresor.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

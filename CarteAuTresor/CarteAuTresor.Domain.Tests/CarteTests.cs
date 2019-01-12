@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using CarteAuTresor.Domain.Tests.Helpers;
+using FluentAssertions;
 using System;
 using System.Linq;
 using Xunit;
@@ -8,74 +9,83 @@ namespace CarteAuTresor.Domain.Tests
 {
     public class CarteTests
     {
-        // Carte
-        // Une carte est de forme rectangulaire composé de case
-        // Une carte est défini par un fichier d'entrée
-        // Une carte possède un nombre de case en largeur et un nombre de case en hauteur hauteur
-        // Sur une carte, les cases sont numérotées d'ouest en est, et de nord en sud en commençant par zéro
-
-        // Case
-        // Sur une case on peut y trouver des plaines, des montagnes, des trésors et des aventuriers
-        // Un trésor, un aventurier ne peuvent se situer dans une case occupé par une montagne
-        // Une case peut contenir plusieurs trésors
-        // Afficher une carte
-        
-        // Aventurier
-        // Un aventurier est caractérisé par sa position sur la carte et son orientation
-        // Il ne peut se déplacer que d'une case à la fois dans la direction définie par son orientation
-        // Il peut changer d'orientation en pivotant à 90° vers la droite ou vers la gauche
-        // Il débute son parcours avec une orientation et une séquence de mouvement prédéfinies
-        // Il ne peut traverser une case montagne
-        // Si l'aventurier est bloqué par une montagne, il poursuit l'exécution de la séquence
-        // Si l'aventurier passe par dessus une case Trésor, il ramasse un trésor présent sur la case. 
-        // Si la case contient 2 trésors, l'aventurier devra quitter la case puis revenir sur celle-ci afin de ramasser le 2ème trésor
-        // Il ne peut y avoir qu'un aventurier à la fois sur une case
-        // Les mouvements des aventuriers sont évalués tour par tour
-        // En cas de conflit entre mouvements sur un même tour c'est l'ordre d'apparition de l'aventurier dans le fichier qui donne la priorité des mouvements
-
-        // Parcours
-        // Position sur la carte
-        // Traverser !
-        // Séquence de mouvement
+        const int _nbCasesEnLargeurAttendus = 3;
+        const int _nbCasesEnHauteurAttendus = 4;
 
         [Fact]
         public void LesDimensionsDeLaCarteSontDefiniesDansLeFichierDEntree()
         {
             // Arrange
-            int nbCasesEnLargeurAttendus = 3, nbCasesEnHauteurAttendus = 4;
-
-            var fichierDEntree = new FichierDEntree
-            {
-                NbCasesEnLargeurDeLaCarte = nbCasesEnLargeurAttendus,
-                NbCasesEnHauteurDeLaCarte = nbCasesEnHauteurAttendus
-            };
+            var fichierDEntree = TestsHelpers.InitFichierDEntree(_nbCasesEnLargeurAttendus, _nbCasesEnHauteurAttendus);
 
             // Act
             var carte = new Carte(fichierDEntree);
             // Assert
-            carte.NbCasesEnLargeur.Should().Be(nbCasesEnLargeurAttendus);
-            carte.NbCasesEnHauteur.Should().Be(nbCasesEnHauteurAttendus);
+            carte.NbCasesEnLargeur.Should().Be(_nbCasesEnLargeurAttendus);
+            carte.NbCasesEnHauteur.Should().Be(_nbCasesEnHauteurAttendus);
         }
 
         [Fact]
         public void LaCarteDeLaMadreDeDiosEstDeFormeRectangulaireComposeDeCases()
         {
             // Arrange
-
+            var fichierDEntree = TestsHelpers.InitFichierDEntree(_nbCasesEnLargeurAttendus, _nbCasesEnHauteurAttendus);
             // Act
-
+            var carte = new Carte(fichierDEntree);
             // Assert
-
+            carte.Cases.Length.Should().Be(12);
+            carte.Cases[0, 0].Should().BeOfType<Plaine>();
         }
 
         [Fact]
         public void LesCasesSontNumeroteesDOuestEnEstEtDeNordEnSudEnCommencantParZero()
         {
             // Arrange
-
+            var fichierDEntree = TestsHelpers.InitFichierDEntree(_nbCasesEnLargeurAttendus, _nbCasesEnHauteurAttendus);
             // Act
-
+            var carte = new Carte(fichierDEntree);
             // Assert
+            carte.Cases[1, 1].Position.Abscisse.Should().Be(1);
+            carte.Cases[1, 1].Position.Ordonnee.Should().Be(1);
+
+            carte.Cases[0, 1].Position.Abscisse.Should().Be(0);
+            carte.Cases[0, 1].Position.Ordonnee.Should().Be(1);
+
+            carte.Cases[1, 0].Position.Abscisse.Should().Be(1);
+            carte.Cases[1, 0].Position.Ordonnee.Should().Be(0);
         }
+
+        [Fact]
+        public void AfficherUneCarte2vs2DePlaines()
+        {
+            // Arrange
+            var fichierDEntree = TestsHelpers.InitFichierDEntree(2, 2);
+            var carte = new Carte(fichierDEntree);
+            // Act
+            var affichage = carte.ToString();
+            // Assert
+            foreach (var caseCourrante in carte.Cases)
+            {
+                caseCourrante.Should().BeOfType<Plaine>();
+            }
+            affichage.Should().Be(".\t.\n.\t.\n");
+        }
+
+        [Fact]
+        public void AfficherUneCarte3vs4AvecDesMontagnesEtDesTresors()
+        {
+            // Arrange
+            var carte = TestsHelpers.InitCarte();
+            // Act
+            var affichage = carte.ToString();
+            // Assert
+            affichage.Should().Be(
+                ".\t.\t.\n" + 
+                ".\tM\t.\n" +
+                ".\t.\tM\n" +
+                "T(2)\tT(1)\t.\n");
+        }
+                
+        
     }
 }
