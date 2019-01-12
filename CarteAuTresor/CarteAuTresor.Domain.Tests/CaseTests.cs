@@ -31,7 +31,7 @@ namespace CarteAuTresor.Domain.Tests
             // Act
             var tresors = new Tresor(new Position(0, 1), 3);
             // Assert
-            tresors.NombreDeTresors().Should().Be(3);
+            tresors.NombreDeTresors.Should().Be(3);
         }
 
         [Fact] 
@@ -39,8 +39,8 @@ namespace CarteAuTresor.Domain.Tests
         {
             // Arrange
             var plaine = new Plaine(new Position(0, 0));
-            var aventurier1 = new Aventurier("Lara", new Position(0, 0), Orientation.Nord);
-            var aventurier2 = new Aventurier("John", new Position(0, 0), Orientation.Sud);
+            var aventurier1 = new Aventurier("Lara", new Position(0, 0), Orientation.Nord, "");
+            var aventurier2 = new Aventurier("John", new Position(0, 0), Orientation.Sud, "");
             // Act
             // Assert
             plaine.Accueille(aventurier1);

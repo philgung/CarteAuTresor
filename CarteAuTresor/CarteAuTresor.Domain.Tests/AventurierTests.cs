@@ -17,11 +17,11 @@ namespace CarteAuTresor.Domain.Tests
             // Arrange
             var position = new Position(0, 1);
             // Act
-            var aventurier = new Aventurier("Lara", position, Orientation.Nord);
+            var lara = TestsHelpers.CreateLara(position);
             // Assert
-            aventurier.Position.Abscisse.Should().Be(0);
-            aventurier.Position.Ordonnee.Should().Be(1);
-            aventurier.Orientation.Should().Be(Orientation.Nord);
+            lara.Position.Abscisse.Should().Be(0);
+            lara.Position.Ordonnee.Should().Be(1);
+            lara.Orientation.Should().Be(Orientation.Nord);
         }
 
         [Fact]
@@ -29,34 +29,34 @@ namespace CarteAuTresor.Domain.Tests
         {
             // Arrange
             var position = new Position(0, 1);
-            var aventurier = new Aventurier("Lara", position, Orientation.Nord);
+            var lara = TestsHelpers.CreateLara(position);
 
             // Act
 
             // Assert
-            aventurier.TourneAGauche();
-            aventurier.Orientation.Should().Be(Orientation.Ouest);
+            lara.TourneAGauche();
+            lara.Orientation.Should().Be(Orientation.Ouest);
 
-            aventurier.TourneAGauche();
-            aventurier.Orientation.Should().Be(Orientation.Sud);
+            lara.TourneAGauche();
+            lara.Orientation.Should().Be(Orientation.Sud);
 
-            aventurier.TourneAGauche();
-            aventurier.Orientation.Should().Be(Orientation.Est);
+            lara.TourneAGauche();
+            lara.Orientation.Should().Be(Orientation.Est);
 
-            aventurier.TourneAGauche();
-            aventurier.Orientation.Should().Be(Orientation.Nord);
+            lara.TourneAGauche();
+            lara.Orientation.Should().Be(Orientation.Nord);
 
-            aventurier.TourneADroite();
-            aventurier.Orientation.Should().Be(Orientation.Est);
+            lara.TourneADroite();
+            lara.Orientation.Should().Be(Orientation.Est);
 
-            aventurier.TourneADroite();
-            aventurier.Orientation.Should().Be(Orientation.Sud);
+            lara.TourneADroite();
+            lara.Orientation.Should().Be(Orientation.Sud);
 
-            aventurier.TourneADroite();
-            aventurier.Orientation.Should().Be(Orientation.Ouest);
+            lara.TourneADroite();
+            lara.Orientation.Should().Be(Orientation.Ouest);
 
-            aventurier.TourneADroite();
-            aventurier.Orientation.Should().Be(Orientation.Nord);
+            lara.TourneADroite();
+            lara.Orientation.Should().Be(Orientation.Nord);
 
         }
 
@@ -66,7 +66,7 @@ namespace CarteAuTresor.Domain.Tests
             // Arrange
 
             // Act
-            var aventurier = new Aventurier("Lara", new Position(0, 1), Orientation.Est);
+            var aventurier = new Aventurier("Lara", new Position(0, 1), Orientation.Est,"");
             // Assert
             aventurier.Nom.Should().NotBeNull();
         }

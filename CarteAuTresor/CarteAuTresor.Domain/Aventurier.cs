@@ -4,14 +4,16 @@ namespace CarteAuTresor.Domain
 {
     public class Aventurier
     {
-        public Aventurier(string nom, Position position, Orientation nord)
+        public Aventurier(string nom, Position position, Orientation nord, string parcours)
         {
             Nom = nom;
             Position = position;
             Orientation = nord;
+            Parcours = parcours.ToCharArray();
         }
-
+        public int TresorCollecte { get; set; } = 0;
         public Position Position { get; set; }
+        public char[] Parcours { get; set; }
 
         public Orientation Orientation { get; private set; }
         public string Nom { get; }
@@ -45,11 +47,16 @@ namespace CarteAuTresor.Domain
                 case Orientation.Sud:
                     return new Position(Position.Abscisse, Position.Ordonnee + 1);
                 case Orientation.Est:
-                    return new Position(Position.Abscisse - 1, Position.Ordonnee);
+                    return new Position(Position.Abscisse + 1, Position.Ordonnee);
                 default:
                 case Orientation.Ouest:
-                    return new Position(Position.Abscisse + 1, Position.Ordonnee);
+                    return new Position(Position.Abscisse - 1, Position.Ordonnee);
             }
+        }
+
+        public void CollecteTresor()
+        {
+            TresorCollecte++;
         }
 
         public void TourneADroite()

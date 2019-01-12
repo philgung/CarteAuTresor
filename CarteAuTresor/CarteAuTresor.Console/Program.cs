@@ -23,7 +23,7 @@ namespace CarteAuTresor.Console
             var carte = new Carte(fichierDEntree);
 
             var position = new Position(0, 1);
-            var aventurier = new Aventurier("Lara", position, Orientation.Nord);
+            var aventurier = new Aventurier("Lara", position, Orientation.Nord, "AADADAGGA");
             carte.Cases.Case(position).Accueille(aventurier);
             var quete = new QueteAuTresor(carte);
             quete.SInscrit(aventurier);

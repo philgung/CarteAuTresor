@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CarteAuTresor.Domain
 {
@@ -37,8 +38,38 @@ namespace CarteAuTresor.Domain
 
                 // Récupérer le trésor si présent
                 Carte.Cases.Case(initialPosition).Quitte();
-                Carte.Cases.Case(prochainePosition).Accueille(aventurier);
-                // -> Trésor pris
+                var prochaineCase = Carte.Cases.Case(prochainePosition);
+                prochaineCase.Accueille(aventurier);
+                if (prochaineCase is Tresor)
+                {
+                    aventurier.CollecteTresor();
+                    (prochaineCase as Tresor).NombreDeTresors--;
+                }
+            }
+        }
+
+        public void Debute()
+        {
+            var tailleParcoursMax = OrdreDePassage.Max(x => x.Value.Parcours).Length;
+            for (int indexParcours = 0; indexParcours < tailleParcoursMax; indexParcours++)
+            {
+                foreach (var item in OrdreDePassage)
+                {
+                    var aventurier = item.Value;
+                    switch (aventurier.Parcours[indexParcours])
+                    {
+                        case 'A':
+                            LAventurierAvance(aventurier);
+                            break;
+                        case 'D':
+                            aventurier.TourneADroite();
+                            break;
+                        default:
+                        case 'G':
+                            aventurier.TourneAGauche();
+                            break;                        
+                    }
+                }
             }
         }
     }

@@ -16,30 +16,28 @@ namespace CarteAuTresor.Domain.Tests
         {
             // Arrange
             var quete = TestsHelpers.InitQuete();
-            var aventurier1 = new Aventurier("Lara", new Position(1, 0), Orientation.Nord);
-            var aventurier2 = new Aventurier("John", new Position(2, 3), Orientation.Est);
-            var aventurier3 = new Aventurier("Paul", new Position(0, 0), Orientation.Sud);
+            var lara = TestsHelpers.CreateLara(new Position(1, 0));
+            var aventurier2 = new Aventurier("John", new Position(2, 3), Orientation.Est, "");
+            var aventurier3 = new Aventurier("Paul", new Position(0, 0), Orientation.Sud, "");
             // Act
-            quete.SInscrit(aventurier1);
+            quete.SInscrit(lara);
             quete.SInscrit(aventurier2);
             quete.SInscrit(aventurier3);
             // Assert
-            quete.OrdreDePassage.First().Value.Should().Be(aventurier1);
+            quete.OrdreDePassage.First().Value.Should().Be(lara);
             quete.OrdreDePassage.Last().Value.Should().Be(aventurier3);
         }
-
-        
 
         [Fact]
         public void UnAventurierNePeutEtrePositionnerSurUneMontagne()
         {
             // Arrange
             var quete = TestsHelpers.InitQuete();
-            var aventurier = new Aventurier("Lara", new Position(1, 1), Orientation.Nord);
+            var lara = TestsHelpers.CreateLara(new Position(1,1));
             // Act
 
             // Assert
-            quete.Invoking(x => x.SInscrit(aventurier)).Should().Throw<CarteAuTresorDomainException>().WithMessage("Un aventurier ne peut se positionner sur une montagne (1, 1).");
+            quete.Invoking(x => x.SInscrit(lara)).Should().Throw<CarteAuTresorDomainException>().WithMessage("Un aventurier ne peut se positionner sur une montagne (1, 1).");
         }
 
         [Fact]
@@ -48,23 +46,78 @@ namespace CarteAuTresor.Domain.Tests
             // Arrange
             var quete = TestsHelpers.InitQuete();
             var initialPosition = new Position(0, 1);
-            var aventurier = new Aventurier("Lara", initialPosition, Orientation.Nord);
-            quete.SInscrit(aventurier);
+            var lara = TestsHelpers.CreateLara(initialPosition);
+            quete.SInscrit(lara);
             // Act
 
-            quete.LAventurierAvance(aventurier);
+            quete.LAventurierAvance(lara);
 
             // Assert
-            aventurier.Position.Abscisse.Should().Be(0);
-            aventurier.Position.Ordonnee.Should().Be(0);
+            lara.Position.Abscisse.Should().Be(0);
+            lara.Position.Ordonnee.Should().Be(0);
             quete.Carte.Cases.Case(initialPosition).Aventurier.Should().BeNull();
-            quete.Carte.Cases.Case(aventurier.Position).Aventurier.Should().NotBeNull();
-            quete.Carte.Cases.Case(aventurier.Position).Aventurier.Should().Be(aventurier);
+            quete.Carte.Cases.Case(lara.Position).Aventurier.Should().NotBeNull();
+            quete.Carte.Cases.Case(lara.Position).Aventurier.Should().Be(lara);
 
         }
 
-        // Il débute son parcours avec une orientation et une séquence de mouvement prédéfinies
-        // Il ne peut traverser une case montagne
+        [Fact]
+        public void UnAventurierNePeutPasTraverserUneMontagne()
+        {
+            // Arrange
+            var quete = TestsHelpers.InitQuete();
+            var initialPosition = new Position(0, 1);
+            var lara = TestsHelpers.CreateLara(initialPosition);
+            quete.SInscrit(lara);
+            lara.TourneADroite();
+            // Act
+            quete.LAventurierAvance(lara);
+
+            // Assert
+            lara.Position.Should().Be(initialPosition);
+            lara.Orientation.Should().Be(Orientation.Est);
+        }
+
+        [Fact]
+        public void UnAventurierDebuteSonParcoursAvecUneOrientationEtUneSequenceDeMouvement()
+        {
+            // Arrange
+            var quete = TestsHelpers.InitDeuxiemeQuete();
+            var initialPosition = new Position(1, 1);
+            var lili = TestsHelpers.CreateLili(initialPosition);
+
+            quete.SInscrit(lili);
+
+            // Act 
+            quete.Debute();
+            // Assert
+            quete.Carte.ToString().Should().Be(
+                ".\tM\t.\n" +
+                ".\t.\tM\n" +
+                ".\t.\t.\n" +
+                "A(Lili)\tT(2)\t.\n");
+        }
+
+        [Fact]
+        public void DeuxAventuriersDebuteLeurParcoursAvecConflit()
+        {
+            // Arrange
+            var quete = TestsHelpers.InitDeuxiemeQuete();
+            var initialPosition = new Position(1, 1);
+            var lili = TestsHelpers.CreateLili(initialPosition);
+
+            quete.SInscrit(lili);
+
+            // Act 
+            quete.Debute();
+            // Assert
+            quete.Carte.ToString().Should().Be(
+                ".\tM\t.\n" +
+                ".\t.\tM\n" +
+                ".\t.\t.\n" +
+                "A(Lili)\tT(2)\t.\n");
+        }
+
         // Si l'aventurier est bloqué par une montagne, il poursuit l'exécution de la séquence
         // Si l'aventurier passe par dessus une case Trésor, il ramasse un trésor présent sur la case. 
         // Si la case contient 2 trésors, l'aventurier devra quitter la case puis revenir sur celle-ci afin de ramasser le 2ème trésor
