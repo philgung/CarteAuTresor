@@ -14,6 +14,7 @@ namespace CarteAuTresor.Domain
 
         public int NbCasesEnLargeurDeLaCarte { get; set; }
         public int NbCasesEnHauteurDeLaCarte { get; set; }
+        public IList<Aventurier> Aventuriers { get; set; } = new List<Aventurier>();
 
         public void AjouterMontagne(Montagne montagne)
         {
@@ -23,6 +24,11 @@ namespace CarteAuTresor.Domain
         public void AjouterTresor(Tresor tresor)
         {
             Tresors.Add(tresor);
+        }
+
+        public void AjouterAventurier(Aventurier aventurier)
+        {
+            Aventuriers.Add(aventurier);
         }
     }
 }

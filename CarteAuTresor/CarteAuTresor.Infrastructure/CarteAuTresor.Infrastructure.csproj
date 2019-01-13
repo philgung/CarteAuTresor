@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2523AA5B-5792-4DC6-88D3-19F9ECB10708}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>CarteAuTresor.Console</RootNamespace>
-    <AssemblyName>CarteAuTresor.Console</AssemblyName>
+    <ProjectGuid>{44C7916A-9F66-4F9A-A0AD-E0B2F2E47E5E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CarteAuTresor.Infrastructure</RootNamespace>
+    <AssemblyName>CarteAuTresor.Infrastructure</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -42,24 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\CarteAuTresor.Domain\CarteAuTresor.Domain.csproj">
-      <Project>{B8B57323-65F3-408D-9123-C33321F1DDB6}</Project>
+      <Project>{b8b57323-65f3-408d-9123-c33321f1ddb6}</Project>
       <Name>CarteAuTresor.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CarteAuTresor.Infrastructure\CarteAuTresor.Infrastructure.csproj">
-      <Project>{44c7916a-9f66-4f9a-a0ad-e0b2f2e47e5e}</Project>
-      <Name>CarteAuTresor.Infrastructure</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="FichierDEntree.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
